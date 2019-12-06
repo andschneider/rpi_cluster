@@ -1,0 +1,35 @@
+- name: Add key
+  become: yes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add repo
+  become: yes
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: Install Kubernetes tools
+  become: yes
+  apt:
+    update-cache: yes
+    autoclean: yes
+    pkg:
+    - kubelet
+    - kubeadm
+    - kubectl
+    - kubernetes-cni
+
+- name: Disable swap
+  become: yes
+  shell: >
+    dphys-swapfile swapoff && 
+    dphys-swapfile uninstall
+
+- name: Stop swapfile 
+  become: yes
+  systemd:
+    name: dphys-swapfile
+    enabled: no
+    state: stopped

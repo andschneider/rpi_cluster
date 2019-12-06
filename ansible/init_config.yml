@@ -1,0 +1,5 @@
+- name: apply initial config
+  hosts: rpis
+  user: pi
+  roles:
+    - setup

@@ -1,0 +1,20 @@
+# Install latest Docker CE 
+- name: Install Docker
+  become: yes
+  script: ./templates/get_docker.sh
+  args:
+    chdir: /tmp
+    creates: /tmp/get_docker.sh
+
+- name: Create Docker group
+  become: yes
+  group:
+    name: Docker
+    state: present
+
+- name: Add user to Docker group
+  become: yes
+  user: 
+    name: pi
+    groups: Docker
+    append: yes
