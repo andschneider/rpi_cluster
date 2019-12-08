@@ -1,5 +1,6 @@
+
 - name: apply initial config
-  hosts: init_config
+  hosts: master
   user: pi
   roles:
-    - setup
+    - master

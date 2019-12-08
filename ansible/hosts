@@ -1,6 +1,9 @@
-[rpis]
-192.168.1.136
+[init_config]
+nodes
+master
 
-[rpis:vars]
-ansible_ssh_private_key_file=~/.ssh/rpi5
-ansible_python_interpreter=/usr/bin/python3.7
+[master_config]
+master
+
+[node_config]
+nodes

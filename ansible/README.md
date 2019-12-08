@@ -10,5 +10,17 @@ Installs:
 Run playbook:
 
 ```bash
-ansible-playbook --private-key=~/.ssh/rpi5 -i ./hosts init_config.yml -v
+ansible-playbook -i hosts init_config.yml -v
+```
+
+## Master node set up
+
+*WIP*
+
+Sets up networking on the master node.
+
+Run playbook:
+
+```bash
+ansible-playbook -i hosts master_config.yml -v
 ```
