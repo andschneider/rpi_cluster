@@ -1,2 +1,3 @@
+- include: hosts.yml
 - include: docker.yml
 - include: k8s.yml
