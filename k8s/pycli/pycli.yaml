@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pycli
+spec:
+  template:
+    spec:
+      containers:
+      - name: pycli-c
+        image: 681212526175.dkr.ecr.us-west-2.amazonaws.com/pycli:0.1.0
+        imagePullPolicy: IfNotPresent
+        args:
+        - "-n=15"
+        - "--hello=world"
+        - "-w=yeet"
+      restartPolicy: OnFailure
