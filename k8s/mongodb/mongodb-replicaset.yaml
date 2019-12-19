@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb-db
+        image: arm32v7/postgres
+        resources:
+          requests:
+            cpu: 1
+            memory: 500Mi
+        env:
+        - name: POSTGRES_PASSWORD
+          value: andrew
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+          - name: mongodb-data 
+            mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: mongodb-data
+        persistentVolumeClaim:
+          claimName: mongo-data-claim
