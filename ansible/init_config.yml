@@ -1,5 +1,5 @@
 - name: apply initial config
   hosts: init_config
-  user: pi
+  user: ubuntu
   roles:
     - setup

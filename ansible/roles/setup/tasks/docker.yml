@@ -1,20 +1,37 @@
-# Install latest Docker CE 
-- name: Install Docker
+# install Docker CE
+- name: install required packages
   become: yes
-  script: ./files/get_docker.sh
-  args:
-    chdir: /tmp
-    creates: /tmp/get_docker.sh
+  apt:
+    name: ["apt-transport-https", "ca-certificates", "curl", "gnupg-agent", "software-properties-common"]
+    update_cache: yes
+    state: latest
 
-- name: Create Docker group
+- name: Add Docker's GPG key
   become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg 
+    state: present
+
+- name: Add repo for 19.04 Ubuntu ('disco') as 19.10 ('eoan') doesn't have an official release
+  become: yes
+  apt_repository:
+    repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu disco stable
+    state: present
+
+- name: install Docker
+  become: yes
+  apt:
+    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
+    update_cache: yes
+
+- name: create a Docker group
   group:
     name: docker
     state: present
 
-- name: Add user to Docker group
+- name: add user to Docker group
   become: yes
-  user: 
-    name: pi
+  user:
+    name: ubuntu
     groups: docker
     append: yes

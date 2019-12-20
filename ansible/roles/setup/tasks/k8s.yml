@@ -1,10 +1,10 @@
-- name: Add key
+- name: Add Kubernete's GPG key
   become: yes
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
 
-- name: Add repo
+- name: Add Kubernete's repo
   become: yes
   apt_repository:
     repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
@@ -20,16 +20,3 @@
     - kubeadm
     - kubectl
     - kubernetes-cni
-
-- name: Disable swap
-  become: yes
-  shell: >
-    dphys-swapfile swapoff && 
-    dphys-swapfile uninstall
-
-- name: Stop swapfile 
-  become: yes
-  systemd:
-    name: dphys-swapfile
-    enabled: no
-    state: stopped
