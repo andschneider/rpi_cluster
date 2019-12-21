@@ -1,0 +1,22 @@
+- name: Disable cloud-init's network configuration capabilities
+  become: yes
+  copy: 
+    src: ./files/99-disable-network-config.cfg
+    dest: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+
+- name: Assign static IP to eth0
+  become: yes
+  copy:
+    src: ./files/01-eth0-netplan.yaml
+    dest: /etc/netplan/01-eth0-netplan.yaml
+
+- name: Copy over wifi credentials
+  become: yes
+  template:
+    src: ./templates/wifi.j2
+    dest: /etc/netplan/50-cloud-init.yaml
+    backup: yes
+
+- name: Apply netplan configuration
+  become: yes
+  command: netplan apply

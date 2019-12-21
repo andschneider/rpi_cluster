@@ -1,1 +1,26 @@
-# TODO apply iptables configuration
+- name: Turn on IP forwarding. Note - a reboot is required for changes to take effect
+  become: yes
+  copy: 
+    src: ./files/sysctl.conf
+    dest: /etc/sysctl.conf
+    backup: yes
+  register: result
+
+- name: Reboot for IP forwarding
+  become: yes
+  reboot:
+    reboot_timeout: 600
+  when: result is changed
+
+- name: Create iptables rules for forwarding from eth0 to wlan0 and back
+  become: yes
+  shell: |
+    iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+    iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+    iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
+
+- name: Save iptables rules
+  become: yes
+  shell: |
+    mkdir -p /etc/iptables
+    iptables-save > /etc/iptables/rules.v4

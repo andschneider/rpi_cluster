@@ -1,6 +1,6 @@
 
 - name: apply initial config
   hosts: master
-  user: pi
+  user: ubuntu
   roles:
     - master

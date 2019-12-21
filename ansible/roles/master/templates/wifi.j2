@@ -1,9 +1,9 @@
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-country=US
-     
-network={
-    ssid="{{ wifi_ssid }}"
-    psk="{{ wifi_pw }}"
-    scan_ssid=1
-}
+network:
+  version: 2
+  wifis:
+    wlan0:
+      optional: true
+      dhcp4: true
+      access-points:
+        "{{ wifi_ssid }}":
+          password: "{{ wifi_pw }}"

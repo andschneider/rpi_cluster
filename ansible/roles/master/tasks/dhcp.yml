@@ -1,17 +1,8 @@
-- name: Create static IP 
-  become: yes
-  copy: 
-    src: "./files/dhcpcd.conf"
-    dest: "/etc/dhcpcd.conf"
-    backup: yes
-  
-# TODO add configuration to the interfaces/eth0 file
-
 - name: Create dhcp configuration 
   become: yes
   copy:
-    src: "./files/dhcpd.conf"
-    dest: "/etc/dhcp/dhcpd.conf"
+    src: ./files/dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
     backup: yes
 
 - name: Install dhcp
@@ -19,7 +10,12 @@
   apt:
     pkg: isc-dhcp-server
 
-# TODO add eth0 to isc config
+- name: Set eth0 as default for isc service
+  become: yes
+  copy: 
+    src: ./files/isc-dhcp-server
+    dest: /etc/default/isc-dhcp-server
+    backup: yes
 
 - name: Restart isc service
   become: yes
