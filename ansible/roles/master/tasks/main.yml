@@ -1,4 +1,5 @@
-- include: netplan.yml
-- include: dhcp.yml
-- include: iptables.yml
-# - include: cluster.yml
+# - include: netplan.yml
+# - include: dhcp.yml
+# - include: iptables.yml
+- include: cluster.yml
+- include: flannel.yml

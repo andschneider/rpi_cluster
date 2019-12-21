@@ -1,0 +1,3 @@
+# TODO add cgroups play 
+  # https://askubuntu.com/questions/1189480/raspberry-pi-4-ubuntu-19-10-cannot-enable-cgroup-memory-at-boostrap
+  # https://github.com/geerlingguy/raspberry-pi-dramble/blob/master/tasks/cgroup-features.yml

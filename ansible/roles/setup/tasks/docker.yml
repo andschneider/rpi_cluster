@@ -1,5 +1,5 @@
 # install Docker CE
-- name: install required packages
+- name: Install required packages for Docker
   become: yes
   apt:
     name: ["apt-transport-https", "ca-certificates", "curl", "gnupg-agent", "software-properties-common"]
@@ -18,18 +18,18 @@
     repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu disco stable
     state: present
 
-- name: install Docker
+- name: Install Docker
   become: yes
   apt:
     name: ["docker-ce", "docker-ce-cli", "containerd.io"]
     update_cache: yes
 
-- name: create a Docker group
+- name: Create a Docker group
   group:
     name: docker
     state: present
 
-- name: add user to Docker group
+- name: Add user to Docker group
   become: yes
   user:
     name: ubuntu

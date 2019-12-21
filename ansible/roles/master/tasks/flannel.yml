@@ -1,1 +1,7 @@
-# TODO apply kube-flannel.yaml
+- name: Copy over the kube-flannel configuration
+  copy:
+    src: ./files/kube-flannel.yaml
+    dest: ~/kube-flannel.yaml
+
+- name: Apply configuration
+  command: kubectl apply -f kube-flannel.yaml

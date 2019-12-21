@@ -9,6 +9,7 @@
   copy:
     src: ./files/01-eth0-netplan.yaml
     dest: /etc/netplan/01-eth0-netplan.yaml
+  register: eth
 
 - name: Copy over wifi credentials
   become: yes
@@ -16,7 +17,10 @@
     src: ./templates/wifi.j2
     dest: /etc/netplan/50-cloud-init.yaml
     backup: yes
+  register: wifi
 
+# TODO add eth to when conditional
 - name: Apply netplan configuration
   become: yes
   command: netplan apply
+  when: wifi is changed
