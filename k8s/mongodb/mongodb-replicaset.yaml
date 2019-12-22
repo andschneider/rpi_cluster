@@ -16,22 +16,24 @@ spec:
     spec:
       containers:
       - name: mongodb-db
-        image: arm32v7/postgres
+        image: arm64v8/mongo
         resources:
           requests:
             cpu: 1
             memory: 500Mi
         env:
-        - name: POSTGRES_PASSWORD
+        - name: MONGO_INITDB_ROOT_USERNAME
           value: andrew
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: pass
         livenessProbe:
           tcpSocket:
-            port: 5432
+            port: 27017
         ports:
-        - containerPort: 5432
+        - containerPort: 27017
         volumeMounts:
           - name: mongodb-data 
-            mountPath: /var/lib/postgresql/data
+            mountPath: /data/db
       volumes:
       - name: mongodb-data
         persistentVolumeClaim:
