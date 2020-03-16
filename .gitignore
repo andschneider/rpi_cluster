@@ -1,3 +1,5 @@
 .vscode
 venv/
 
+
+k8s/mongodb/tools/mongo-tools/

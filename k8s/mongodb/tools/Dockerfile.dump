@@ -1,0 +1,9 @@
+FROM golang:1.13.8 as build
+
+WORKDIR /go/src/github.com/mongodb/mongo-tools
+COPY mongo-tools/ .
+RUN CGO_ENABLED=0 go build -o /bin/mongodump mongodump/main/mongodump.go
+
+FROM scratch
+COPY --from=build /bin/mongodump /bin/mongodump
+ENTRYPOINT ["/bin/mongodump"]
