@@ -1,10 +1,16 @@
+---
 # install Docker CE
 - name: Install required packages for Docker
   become: yes
   apt:
-    name: ["apt-transport-https", "ca-certificates", "curl", "gnupg-agent", "software-properties-common"]
     update_cache: yes
-    state: latest
+    autoclean : yes
+    name: 
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
 
 - name: Add Docker's GPG key
   become: yes
@@ -12,17 +18,21 @@
     url: https://download.docker.com/linux/ubuntu/gpg 
     state: present
 
-- name: Add repo for 19.04 Ubuntu ('disco') as 19.10 ('eoan') doesn't have an official release
+- name: Add repo for 18.04 Ubuntu
   become: yes
   apt_repository:
-    repo: deb [arch=arm64] https://download.docker.com/linux/ubuntu disco stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
     state: present
 
 - name: Install Docker
   become: yes
   apt:
-    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
     update_cache: yes
+    autoclean : yes
+    name: 
+    - containerd.io
+    - docker-ce
+    - docker-ce-cli
 
 - name: Create a Docker group
   group:
@@ -35,3 +45,23 @@
     name: ubuntu
     groups: docker
     append: yes
+
+- name: Setup Docker daemon
+  become: yes
+  copy:
+    src: ./files/daemon.json
+    dest: /etc/docker/daemon.json
+    backup: yes
+
+- name: Not sure
+  become: yes
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+
+- name: Reload Docker service
+  become: yes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
